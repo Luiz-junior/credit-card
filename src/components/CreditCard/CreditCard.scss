@@ -1,0 +1,77 @@
+.credit-card-container {
+  position: absolute;
+  top: 25px;
+  max-width: 350px;
+  height: 220px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  border-radius: 15px;
+  background-image: url("../../assets/issues/6.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 20px;
+
+  .section-front-card {
+    .section-header-card {
+      display: flex;
+      justify-content: space-between;
+
+      .chip-img {
+        height: 40px;
+      }
+
+      .flag-img {
+        height: 35px;
+      }
+    }
+  }
+
+  .section-card-number {
+    color: #fff;
+
+    .slide-fade-up {
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      height: 100px;
+    }
+
+    .slide-fade-up-enter {
+      transform: translateY(15px);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .slide-fade-up-enter-active {
+      transition: all 0.25s ease-in-out;
+      transition-delay: 0.1s;
+      transform: translateY(0px);
+      position: relative;
+      opacity: 1;
+    }
+
+    .slide-fade-up-enter-done {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+
+    .slide-fade-up-exit {
+      transform: translateY(0px);
+      pointer-events: none;
+      opacity: 1;
+    }
+
+    .slide-fade-up-exit-active {
+      transition: all 250ms ease-in-out;
+      transform: translateY(-15px);
+      position: relative;
+      opacity: 0;
+    }
+
+    .slide-fade-up-exit-done {
+      opacity: 0;
+    }
+  }
+}
