@@ -35,3 +35,9 @@ export const changeCVV = (cvv) => {
     dispatch({ type: TYPE.CHANGE_CARD_CVV, cvv });
   };
 };
+
+export const onFlipCreditCard = (flipped) => {
+  return (dispatch) => {
+    dispatch({ type: TYPE.FLIP_CREDIT_CARD, flipped });
+  };
+};

@@ -1,40 +1,30 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./FormCreditCard.scss";
-import { months, years } from "../../utils/common";
+import { months, years, onlyNumbers } from "../../utils/common";
 import {
-  getCreditCardInfo,
   changeCardNumber,
   changeCardName,
   changeMonth,
   changeYear,
   changeCVV,
+  onFlipCreditCard,
 } from "../../store/actions/formAction";
 
 const FormCreditCard = () => {
   const dispatch = useDispatch();
 
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardName, setCardName] = useState("");
-  const [monthSelected, setMonthSelected] = useState("");
-  const [yearSelected, setYearSelected] = useState("");
-  const [cvv, setCvv] = useState(0);
+  const { cardNumber, cardName, month, year, cvv } = useSelector(
+    (state) => state.formReducer
+  );
 
   const handleSubmit = () => {
-    /* const cardInfo = {
-      cardNumber,
-      cardName,
-      monthSelected,
-      yearSelected,
-      cvv,
-    }; */
-    /*  dispatch(getCreditCardInfo(cardInfo)); */
-    /* alert(`Card Number: ${cardNumber} 
+    alert(`Card Number: ${cardNumber} 
         \nCard Name: ${cardName}
-        \nExpiration Date: ${monthSelected} - ${yearSelected}
+        \nExpiration Date: ${month} - ${year}
         \nCVV: ${cvv}
-        `); */
+        `);
   };
 
   return (
@@ -46,12 +36,11 @@ const FormCreditCard = () => {
           </label>
           <input
             type="text"
-            name="card-number"
-            value={cardNumber}
+            name="cardNumber"
+            value={cardNumber.replace(/\d{4}(?=.)/g, "$& ")}
             className="card-input"
-            onChange={(v) => {
-              setCardNumber(v.target.value);
-              dispatch(changeCardNumber(v.target.value));
+            onChange={(e) => {
+              dispatch(changeCardNumber(onlyNumbers(e.target.value)));
             }}
             maxLength="19"
           />
@@ -67,9 +56,9 @@ const FormCreditCard = () => {
             value={cardName}
             className="card-input"
             onChange={(v) => {
-              setCardName(v.target.value);
               dispatch(changeCardName(v.target.value));
             }}
+            maxLength={25}
           />
         </div>
 
@@ -83,7 +72,9 @@ const FormCreditCard = () => {
               name="months"
               id="months"
               className="card-input"
-              onChange={(v) => setMonthSelected(v.target.value)}
+              onChange={(v) => {
+                dispatch(changeMonth(v.target.value));
+              }}
             >
               <option disabled selected>
                 Month
@@ -102,7 +93,7 @@ const FormCreditCard = () => {
               name="years"
               id="years"
               className="card-input"
-              onChange={(v) => setYearSelected(v.target.value)}
+              onChange={(v) => dispatch(changeYear(v.target.value))}
             >
               <option disabled selected>
                 Year
@@ -124,9 +115,11 @@ const FormCreditCard = () => {
               name="cvv"
               type="text"
               value={cvv}
-              onChange={(v) => setCvv(v.target.value)}
+              onChange={(v) => dispatch(changeCVV(onlyNumbers(v.target.value)))}
               className="card-input"
               id="cvv-input"
+              onFocus={() => dispatch(onFlipCreditCard(true))}
+              onBlur={() => dispatch(onFlipCreditCard(false))}
             />
           </div>
         </div>

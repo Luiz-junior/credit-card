@@ -1,19 +1,61 @@
-.credit-card-container {
-  position: absolute;
-  top: 25px;
-  max-width: 350px;
-  height: 220px;
-  margin: 0 auto;
+.credit-card-no-flipped {
   position: relative;
-  z-index: 2;
+  top: 25px;
   width: 100%;
+  height: 190px;
+  max-width: 280px;
+  margin: 0 auto;
+  z-index: 2;
+
   border-radius: 15px;
   background-image: url("../../assets/issues/6.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
+  perspective: 1000px;
+
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 20px;
 
+  @media (min-width: 376px) {
+    height: 220px;
+    max-width: 350px;
+  }
+
   .section-front-card {
+    .card-focus {
+      position: absolute;
+      z-index: 3;
+      border-radius: 5px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transition: all 0.35s cubic-bezier(0.71, 0.03, 0.56, 0.85);
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.65);
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgb(8, 20, 47);
+        height: 100%;
+        border-radius: 5px;
+        filter: blur(25px);
+        opacity: 0.5;
+      }
+
+      &.-active {
+        opacity: 1;
+      }
+    }
+
     .section-header-card {
       display: flex;
       justify-content: space-between;
@@ -26,16 +68,165 @@
         height: 35px;
       }
     }
+
+    .section-card-number {
+      color: #fff;
+
+      .card-number-value {
+        letter-spacing: 1px;
+        font-size: 22px;
+        font-weight: 500;
+        /*  width: 16px;
+        display: inline-block; */
+      }
+    }
+
+    .footer-card {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      bottom: 15px;
+
+      @media (min-width: 376px) {
+        bottom: initial;
+      }
+
+      .card-holder-container {
+        .holder-label {
+          color: #fff;
+          font-size: 12px;
+          letter-spacing: 1px;
+        }
+
+        .card-name-text {
+          font-size: 14px;
+          text-transform: uppercase;
+          color: #fff;
+          font-family: "monospace", sans-serif;
+          font-weight: 600;
+          line-height: 22px;
+
+          .name-value {
+            display: inline-block;
+            min-width: 8px;
+            position: relative;
+          }
+        }
+      }
+
+      .expires-container {
+        color: #fff;
+        .expires-label {
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 2px;
+        }
+
+        .month-text {
+          font-weight: 600;
+        }
+
+        .label-year {
+          font-weight: 600;
+
+          span {
+            display: inline-block;
+          }
+        }
+      }
+    }
   }
 
-  .section-card-number {
-    color: #fff;
+  .section-back-card {
+    transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: perspective(2000px) rotateY(-180deg) rotateX(0deg) rotate(0deg);
+    z-index: 2;
+    padding: 0;
+    border-radius: 15px;
 
-    .slide-fade-up {
+    height: 100%;
+
+    .first-line {
+      height: 40px;
+      width: 100%;
+      max-width: 350px;
+      background: #333;
+      opacity: 0.7;
+      position: relative;
+      top: 25px;
+    }
+
+    .section-cvv {
       display: flex;
-      align-items: center;
-      font-size: 20px;
+      background: #fff;
+      flex-direction: column;
+      position: relative;
+      top: 60px;
+      width: 92%;
+      height: 35px;
+      border-radius: 5px;
+      margin: 0 auto;
+      text-align: right;
+      padding-right: 10px;
+
+      @media (min-width: 376px) {
+        height: 40px;
+      }
+
+      .text-cvv {
+        text-align: right;
+        font-size: 12px;
+        color: #fff;
+        position: relative;
+        bottom: 20px;
+        font-weight: 600;
+      }
+
+      .value-cvv {
+        span {
+          display: inline-block;
+        }
+      }
+
+      .section-card-type {
+        text-align: right;
+
+        .card-type-img {
+          position: absolute;
+          width: 60px;
+          top: 50px;
+          right: 3px;
+          opacity: 0.7;
+
+          @media (min-width: 376px) {
+            top: 65px;
+            width: 80px;
+          }
+        }
+      }
+    }
+  }
+
+  .slide-fade-up {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    height: 90px;
+
+    @media (min-width: 376px) {
       height: 100px;
+    }
+
+    .hashtag-number {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 22px;
+      width: 85%;
     }
 
     .slide-fade-up-enter {
@@ -74,4 +265,84 @@
       opacity: 0;
     }
   }
+
+  .slide-fade-up-2 {
+    @extend .slide-fade-up;
+
+    align-items: initial;
+    font-size: 14px;
+    height: initial;
+    font-weight: 500;
+  }
+}
+
+.credit-card-flipped {
+  @extend .credit-card-no-flipped;
+
+  transform: rotateY(180deg);
+}
+
+.credit-card-no-flipped {
+  .section-front-card,
+  .section-back-card {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* --------------- */
+
+.slide-fade-right-enter {
+  opacity: 0;
+  transform: translateX(10px) rotate(45deg);
+  pointer-events: none;
+}
+.slide-fade-right-enter-active {
+  transition: all 0.25s ease-in-out;
+  transition-delay: 0.1s;
+  transform: translateX(0px) rotate(0deg);
+  position: relative;
+  opacity: 100;
+}
+
+.slide-fade-right-exit {
+  transform: translateX(0px) rotate(0deg);
+  pointer-events: none;
+}
+
+.slide-fade-right-exit-active {
+  opacity: 0;
+  transition: all 0.25s ease-in-out;
+  transform: translateX(30px) rotate(-80deg);
+  position: relative;
+}
+
+.zoom-in-out-enter {
+  transform: translateY(6px) scale(3.5);
+  transition-delay: 0.1s;
+  filter: blur(0.4px);
+  opacity: 0;
+}
+
+.zoom-in-out-enter-active {
+  transition: all 250ms ease-in-out;
+  transform: translateY(0px) scale(1);
+  filter: blur(0px);
+  opacity: 1;
+}
+
+.zoom-in-out-enter-done {
+  opacity: 1;
+}
+
+.zoom-in-out-exit {
+  opacity: 1;
+}
+
+.zoom-in-out-exit-active {
+  transition: all 150ms ease-in-out;
+  transition-delay: 0.1s;
+  transform: translateY(4px) scale(2.3);
+  filter: blur(0.4px);
+  position: relative;
 }

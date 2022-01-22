@@ -10,7 +10,7 @@ export const years = Array.from({ length: 9 }, (_x, i) => currentYear + i);
 export const maskCardNumber = (cardNumber) => {
   let cardNumberArr = cardNumber.split("");
 
-  cardNumberArr.forEach((val, index) => {
+  cardNumberArr.forEach((value, index) => {
     if (index > 4 && index < 14) {
       if (cardNumberArr[index] !== " ") {
         cardNumberArr[index] = "*";
@@ -31,7 +31,7 @@ const CARDS = {
   diners: "^(30[0-5]|36)",
 };
 
-const cardType = (cardNumber) => {
+export const cardType = (cardNumber) => {
   const number = cardNumber;
   let re;
   for (const [card, pattern] of Object.entries(CARDS)) {
@@ -41,5 +41,8 @@ const cardType = (cardNumber) => {
     }
   }
 
-  return "visa"; // default type
+  return "visa";
 };
+
+export const onlyNumbers = (value) =>
+  value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");

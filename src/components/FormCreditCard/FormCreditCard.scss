@@ -65,9 +65,18 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+
+      @media (min-width: 376px) {
+        flex-wrap: nowrap;
+      }
 
       .input-box {
-        width: 110px;
+        width: 100%;
+
+        @media (min-width: 376px) {
+          max-width: 110px;
+        }
       }
 
       #years {
@@ -88,10 +97,6 @@
       color: #fff;
       margin-top: 20px;
       cursor: pointer;
-
-      /* @media screen and (max-width: 480px) {
-            margin-top: 10px;
-        } */
     }
   }
 }
