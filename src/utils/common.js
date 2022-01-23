@@ -8,17 +8,21 @@ export const months = Array.from({ length: 12 }, (x, i) => {
 export const years = Array.from({ length: 9 }, (_x, i) => currentYear + i);
 
 export const maskCardNumber = (cardNumber) => {
-  let cardNumberArr = cardNumber.split("");
+  if (cardNumber) {
+    let cardNumberArr = cardNumber.split("");
 
-  cardNumberArr.forEach((value, index) => {
-    if (index > 4 && index < 14) {
-      if (cardNumberArr[index] !== " ") {
-        cardNumberArr[index] = "*";
+    cardNumberArr.forEach((value, index) => {
+      if (index > 4 && index < 14) {
+        if (cardNumberArr[index] !== " ") {
+          cardNumberArr[index] = "*";
+        }
       }
-    }
-  });
+    });
 
-  return cardNumberArr;
+    return cardNumberArr;
+  }
+
+  return [];
 };
 
 const CARDS = {
@@ -32,12 +36,14 @@ const CARDS = {
 };
 
 export const cardType = (cardNumber) => {
-  const number = cardNumber;
-  let re;
-  for (const [card, pattern] of Object.entries(CARDS)) {
-    re = new RegExp(pattern);
-    if (number.match(re) != null) {
-      return card;
+  if (cardNumber) {
+    const number = cardNumber;
+    let regex;
+    for (const [card, pattern] of Object.entries(CARDS)) {
+      regex = new RegExp(pattern);
+      if (number.match(regex) != null) {
+        return card;
+      }
     }
   }
 

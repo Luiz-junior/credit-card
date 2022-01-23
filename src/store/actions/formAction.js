@@ -1,4 +1,4 @@
-import * as TYPE from "./types";
+import * as TYPE from "store/actions/types";
 
 export const getCreditCardInfo = (value) => {
   return (dispatch) => {

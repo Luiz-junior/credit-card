@@ -76,8 +76,9 @@
         letter-spacing: 1px;
         font-size: 22px;
         font-weight: 500;
-        /*  width: 16px;
-        display: inline-block; */
+        width: 13px;
+        display: inline-block;
+        position: relative;
       }
     }
 
@@ -124,6 +125,11 @@
 
         .month-text {
           font-weight: 600;
+          position: relative;
+
+          span {
+            display: inline-block;
+          }
         }
 
         .label-year {

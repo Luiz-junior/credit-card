@@ -2,4 +2,22 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
+
+/* import 'regenerator-runtime/runtime'
+import '@testing-library/jest-dom/extend-expect'
+import { configure } from '@testing-library/dom'
+import '@testing-library/jest-dom'
+import 'jest-canvas-mock'
+
+configure({ testIdAttribute: 'data-test-id' })
+
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+}
+
+global.localStorage = localStorageMock
+ */

@@ -1,4 +1,4 @@
-import * as TYPE from "../actions/types";
+import * as TYPE from "store/actions/types";
 
 const initialState = {
   cardNumber: "",

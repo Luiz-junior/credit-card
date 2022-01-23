@@ -1,8 +1,6 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import "./FormCreditCard.scss";
-import { months, years, onlyNumbers } from "../../utils/common";
+import { months, years, onlyNumbers } from "utils/common";
 import {
   changeCardNumber,
   changeCardName,
@@ -10,44 +8,57 @@ import {
   changeYear,
   changeCVV,
   onFlipCreditCard,
-} from "../../store/actions/formAction";
+} from "store/actions/formAction";
+
+import "./FormCreditCard.scss";
 
 const FormCreditCard = () => {
   const dispatch = useDispatch();
 
   const { cardNumber, cardName, month, year, cvv } = useSelector(
-    (state) => state.formReducer
+    (state) => state.formReducer || {}
   );
 
   const handleSubmit = () => {
-    alert(`Card Number: ${cardNumber} 
-        \nCard Name: ${cardName}
-        \nExpiration Date: ${month} - ${year}
-        \nCVV: ${cvv}
-        `);
+    setTimeout(() => {
+      alert(`Card Number: ${cardNumber} 
+      \nCard Name: ${cardName}
+      \nExpiration Date: ${month} - ${year}
+      \nCVV: ${cvv}
+      `);
+    }, 500);
   };
 
   return (
     <div className="form-container">
       <div className="card-info">
         <div className="input-box">
-          <label htmlFor="card-number" className="card-input-label">
+          <label
+            htmlFor="cardNumber"
+            className="card-input-label"
+            aria-label="card-number"
+          >
             Card Number
           </label>
           <input
             type="text"
             name="cardNumber"
-            value={cardNumber.replace(/\d{4}(?=.)/g, "$& ")}
+            value={cardNumber && cardNumber.replace(/\d{4}(?=.)/g, "$& ")}
             className="card-input"
             onChange={(e) => {
               dispatch(changeCardNumber(onlyNumbers(e.target.value)));
             }}
             maxLength="19"
+            data-testid="card-number"
           />
         </div>
 
         <div className="input-box">
-          <label htmlFor="card-name" className="card-input-label">
+          <label
+            htmlFor="card-name"
+            className="card-input-label"
+            aria-label="card-name"
+          >
             Card Name
           </label>
           <input
@@ -59,6 +70,7 @@ const FormCreditCard = () => {
               dispatch(changeCardName(v.target.value));
             }}
             maxLength={25}
+            data-testid="card-name"
           />
         </div>
 
@@ -76,13 +88,9 @@ const FormCreditCard = () => {
                 dispatch(changeMonth(v.target.value));
               }}
             >
-              <option disabled selected>
-                Month
-              </option>
-
               {months.map((month, i) => (
                 <option key={i} value={month}>
-                  {month}
+                  {i === 0 ? "Month" : month}
                 </option>
               ))}
             </select>
@@ -95,13 +103,9 @@ const FormCreditCard = () => {
               className="card-input"
               onChange={(v) => dispatch(changeYear(v.target.value))}
             >
-              <option disabled selected>
-                Year
-              </option>
-
               {years.map((year, i) => (
                 <option key={i} value={year}>
-                  {year}
+                  {i === 0 ? "Year" : year}
                 </option>
               ))}
             </select>
@@ -120,10 +124,12 @@ const FormCreditCard = () => {
               id="cvv-input"
               onFocus={() => dispatch(onFlipCreditCard(true))}
               onBlur={() => dispatch(onFlipCreditCard(false))}
+              maxLength={3}
             />
           </div>
         </div>
         <button
+          name="submit-button"
           className="submit-button"
           type="submit"
           onClick={() => handleSubmit()}

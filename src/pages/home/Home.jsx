@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import FormCreditCard from "components/FormCreditCard/FormCreditCard";
+import CreditCard from "components/CreditCard/CreditCard";
 
 import "./home.scss";
-
-import FormCreditCard from "../../components/FormCreditCard/FormCreditCard";
-import CreditCard from "../../components/CreditCard/CreditCard";
 
 const Home = () => {
   return (

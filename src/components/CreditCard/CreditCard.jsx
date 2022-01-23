@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   CSSTransition,
@@ -6,17 +6,16 @@ import {
   SwitchTransition,
 } from "react-transition-group";
 
-import { maskCardNumber, cardType } from "../../utils/common";
-import chip from "../../assets/issues/chip.png";
+import { maskCardNumber, cardType } from "utils/common";
+import chip from "assets/issues/chip.png";
+
 import "./CreditCard.scss";
 
-const CreditCard = ({
-  currentFocusedElm,
+const CreditCard = () => {
+  const [newCardNumber, setNewCardNumber] = useState("#### #### #### ####");
 
-  onCardElementClick,
-}) => {
   const { cardNumber, cardName, month, year, cvv, flipped } = useSelector(
-    (state) => state.formReducer
+    (state) => state.formReducer || {}
   );
 
   const useCardType = useMemo(() => {
@@ -24,10 +23,22 @@ const CreditCard = ({
   }, [cardNumber]);
 
   const formatValue = (value) => {
-    let newValue = value.match(/.{1,4}/g);
+    if (value) {
+      let newValue = value.match(/.{1,4}/g);
+      return newValue.join(" ");
+    }
 
-    return newValue.join(" ");
+    return "";
   };
+
+  useEffect(() => {
+    if (cardNumber === "") {
+      setNewCardNumber("#### #### #### ####");
+    } else {
+      let value = formatValue(cardNumber);
+      setNewCardNumber((prev) => (prev = value));
+    }
+  }, [cardNumber]);
 
   return (
     <div className={flipped ? "credit-card-flipped" : "credit-card-no-flipped"}>
@@ -40,22 +51,17 @@ const CreditCard = ({
             alt="Imagem da bandeira do cartão"
           />
         </div>
-        <div
-          className="section-card-number"
-          onClick={() => onCardElementClick("cardNumber")}
-        >
+        <div className="section-card-number" aria-label="section-card-number">
           <TransitionGroup className="slide-fade-up" component="div">
-            {cardNumber !== "" ? (
-              maskCardNumber(cardNumber).map((value, i) => {
+            {newCardNumber !== "" ? (
+              maskCardNumber(newCardNumber).map((value, i) => {
                 return (
                   <CSSTransition
                     classNames="slide-fade-up"
                     timeout={250}
                     key={i}
                   >
-                    <div className="card-number-value">
-                      {formatValue(value)}
-                    </div>
+                    <div className="card-number-value">{value}</div>
                   </CSSTransition>
                 );
               })
@@ -66,16 +72,21 @@ const CreditCard = ({
             )}
           </TransitionGroup>
         </div>
-        <footer className="footer-card">
+        <footer className="footer-card" aria-label="footer-card">
           <div className="card-holder-container">
             <label className="holder-label">Card Holder</label>
             <div className="card-name-text">
-              <TransitionGroup component="div" className="slide-fade-up-2">
+              <TransitionGroup
+                component="div"
+                className="slide-fade-up-2"
+                aria-label="slide-fade-up-2"
+              >
                 {cardName === "FULL NAME" ? (
                   <CSSTransition classNames="slide-fade-up-2" timeout={250}>
                     <div>FULL NAME</div>
                   </CSSTransition>
                 ) : (
+                  cardName &&
                   cardName.split("").map((value, index) => (
                     <CSSTransition
                       timeout={250}
@@ -126,22 +137,23 @@ const CreditCard = ({
 
         <div className="section-cvv">
           <div className="text-cvv">CVV</div>
-          <div className="value-cvv">
+          <div className="value-cvv" aria-label="value-cvv">
             <TransitionGroup>
-              {cvv.split("").map((value, index) => (
-                <CSSTransition
-                  classNames="zoom-in-out"
-                  key={index}
-                  timeout={250}
-                >
-                  <span>*</span>
-                </CSSTransition>
-              ))}
+              {cvv &&
+                cvv.split("").map((value, index) => (
+                  <CSSTransition
+                    classNames="zoom-in-out"
+                    key={index}
+                    timeout={250}
+                  >
+                    <span>*</span>
+                  </CSSTransition>
+                ))}
             </TransitionGroup>
           </div>
           <div className="section-card-type">
             <img
-              alt="card-type"
+              alt="Imagem do tipo de cartão"
               src={require("../../assets/issues/discover.png")}
               className="card-type-img"
             />
