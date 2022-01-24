@@ -117,23 +117,16 @@
 
       .expires-container {
         color: #fff;
+
         .expires-label {
           font-size: 12px;
           font-weight: 500;
           letter-spacing: 2px;
         }
 
-        .month-text {
+        .label-text {
           font-weight: 600;
           position: relative;
-
-          span {
-            display: inline-block;
-          }
-        }
-
-        .label-year {
-          font-weight: 600;
 
           span {
             display: inline-block;

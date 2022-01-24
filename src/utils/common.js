@@ -52,3 +52,12 @@ export const cardType = (cardNumber) => {
 
 export const onlyNumbers = (value) =>
   value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
+
+export const formatValue = (value) => {
+  if (value) {
+    let newValue = value.match(/.{1,4}/g);
+    return newValue.join(" ");
+  }
+
+  return "";
+};

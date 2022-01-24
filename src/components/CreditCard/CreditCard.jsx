@@ -6,7 +6,7 @@ import {
   SwitchTransition,
 } from "react-transition-group";
 
-import { maskCardNumber, cardType } from "utils/common";
+import { maskCardNumber, cardType, formatValue } from "utils/common";
 import chip from "assets/issues/chip.png";
 
 import "./CreditCard.scss";
@@ -21,15 +21,6 @@ const CreditCard = () => {
   const useCardType = useMemo(() => {
     return cardType(cardNumber);
   }, [cardNumber]);
-
-  const formatValue = (value) => {
-    if (value) {
-      let newValue = value.match(/.{1,4}/g);
-      return newValue.join(" ");
-    }
-
-    return "";
-  };
 
   useEffect(() => {
     if (cardNumber === "") {
@@ -104,8 +95,8 @@ const CreditCard = () => {
             <div>
               <label className="expires-label">Expires</label>
             </div>
-            <label className="month-text">
-              <SwitchTransition in-out>
+            <label className="label-text">
+              <SwitchTransition>
                 <CSSTransition
                   classNames="slide-fade-up"
                   timeout={200}
@@ -115,8 +106,8 @@ const CreditCard = () => {
                 </CSSTransition>
               </SwitchTransition>
             </label>
-            /
-            <label htmlFor="cardYear" className="label-year">
+            &nbsp; /
+            <label htmlFor="cardYear" className="label-text">
               <SwitchTransition out-in>
                 <CSSTransition
                   classNames="slide-fade-up"
