@@ -5,3 +5,5 @@
 #### Após instalar as dependências basta rodar o comando `yarn start` ou `npm start`
 
 #### Para rodar os testes basta executar o comando `yarn test`
+
+#### Link do projeto online: https://competent-noether-147899.netlify.app/
